@@ -29,6 +29,20 @@ DEBUG = os.environ.get("DEBUG", "True").lower() in ("true", "1", "yes")
 allowed_hosts_env = os.environ.get("ALLOWED_HOSTS", "localhost,127.0.0.1,[::1],testserver")
 ALLOWED_HOSTS = [host.strip() for host in allowed_hosts_env.split(",") if host.strip()]
 
+# CSRF and Session Cookie Configuration for SPA integration
+CSRF_COOKIE_HTTPONLY = False  # Allows frontend client to inspect CSRF cookie
+CSRF_COOKIE_NAME = "csrftoken"
+CSRF_HEADER_NAME = "HTTP_X_CSRFTOKEN"
+CSRF_COOKIE_SAMESITE = "Lax"
+SESSION_COOKIE_SAMESITE = "Lax"
+SESSION_COOKIE_HTTPONLY = True
+
+csrf_trusted_env = os.environ.get(
+    "CSRF_TRUSTED_ORIGINS",
+    "http://localhost:5173,http://127.0.0.1:5173,http://localhost:8000,http://127.0.0.1:8000",
+)
+CSRF_TRUSTED_ORIGINS = [origin.strip() for origin in csrf_trusted_env.split(",") if origin.strip()]
+
 # Application definition
 INSTALLED_APPS = [
     "django.contrib.admin",
